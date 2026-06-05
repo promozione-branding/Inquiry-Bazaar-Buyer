@@ -20,6 +20,13 @@ export async function POST(req) {
       );
     }
 
+    if (user.role !== "buyer") {
+      return NextResponse.json(
+        { success: false, message: "Buyer profile not found" },
+        { status: 400 }
+      );
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -29,9 +36,7 @@ export async function POST(req) {
       );
     }
 
-    // =========================
     // DEVICE INFO
-    // =========================
     const userAgent = req.headers.get("user-agent") || "";
     const parser = new UAParser(userAgent);
 
@@ -42,9 +47,7 @@ export async function POST(req) {
     const deviceName = `${browser} on ${os}`;
     const ip = req.headers.get("x-forwarded-for") || "unknown";
 
-    // =========================
     // SESSION CREATE
-    // =========================
     const session = await Session.create({
       userId: user._id,
       browser,
@@ -55,9 +58,7 @@ export async function POST(req) {
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    // =========================
     // JWT
-    // =========================
     const token = jwt.sign(
       {
         id: user._id,
@@ -68,9 +69,7 @@ export async function POST(req) {
       { expiresIn: "7d" }
     );
 
-    // =========================
     // RESPONSE + COOKIE
-    // =========================
     const response = NextResponse.json({
       success: true,
       user: {

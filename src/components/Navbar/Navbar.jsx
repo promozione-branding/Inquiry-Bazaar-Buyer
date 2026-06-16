@@ -43,20 +43,25 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="w-full border-b border-b-gray-300 bg-white sticky top-0 z-50 h-20">
+    <nav className="w-full border-b border-b-gray-300 bg-white sticky top-0 z-999 h-23">
       <div className="mx-auto md:px-6 px-2 flex items-center justify-between">
         <Link href="/">
           <Image
             src="/Logo/logoo.webp"
             alt="Inquiry Bazaar"
-            width={200}
-            height={200}
-            className="object-contain h-19 w-50"
+            width={100}
+            height={100}
+            className="object-contain h-full w-full mt-1"
           />
         </Link>
+
+        
+              <h3 className="font-bold hidden lg:block text-3xl">Buyer Panel</h3>
         {user ? (<>
           <div className="flex gap-2 items-center">
             <div className="relative" ref={bellRef}>
+
+
               <button onClick={() => setBellOpen(!bellOpen)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-black">
                 <Bell size={20} />

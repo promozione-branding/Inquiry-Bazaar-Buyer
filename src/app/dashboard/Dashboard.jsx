@@ -347,8 +347,54 @@ const fetchRecommendedProducts = async () => {
 };
 
 
+const handleSubmit2 = async () => {
+  if (submitting) return;
 
+  if (!product.trim()) {
+    return toast.error(
+      "Please enter a product/service name"
+    );
+  }
 
+  setSubmitting(true);
+
+  try {
+    const formData = new FormData();
+
+    formData.append("product", product);
+    formData.append("requirement", requirement);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+    await axios.post(
+      "/api/post-requirement",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    toast.success(
+      "RFQ submitted successfully!"
+    );
+
+    setProduct("");
+    setRequirement("");
+    setImage(null);
+    setPreview("");
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message ||
+        "Failed to submit RFQ"
+    );
+  } finally {
+    setSubmitting(false);
+  }
+};
   return (
 
     <>
@@ -360,7 +406,6 @@ const fetchRecommendedProducts = async () => {
   <div className="w-full bg-[#f3f3f3] rounded-xl p-4">
     <div className="flex flex-col lg:flex-row gap-4">
 
-      {/* Location */}
       <div className="flex items-center justify-between w-full lg:min-w-[250px] lg:w-auto h-[50px] px-4 bg-white border border-gray-300 rounded-lg cursor-pointer">
         <div className="flex items-center gap-3 overflow-hidden">
           <MapPin size={18} className="text-gray-500 shrink-0" />
@@ -644,7 +689,7 @@ const fetchRecommendedProducts = async () => {
       )}
     </div>
 
-    {/* RFQ Upload Section */}
+ 
    <div className="xl:col-span-4">
   <div className="bg-white border border-gray-200 rounded-3xl p-5  h-full">
     <h2 className="text-2xl font-bold text-[#183B63] mb-6">
@@ -725,7 +770,7 @@ const fetchRecommendedProducts = async () => {
     />
 
 
-    {/* Product Name */}
+
     <div className="mb-2 mt-2">
       <label className="block text-sm font-medium text-gray-700 mb-2">
         Product / Service Name
@@ -775,7 +820,7 @@ const fetchRecommendedProducts = async () => {
 
     {/* Submit */}
   <button
-  onClick={handleSubmit}
+  onClick={handleSubmit2}
   disabled={submitting}
   className="
     w-full

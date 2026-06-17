@@ -12,6 +12,8 @@ export async function POST(req) {
     const image =
       formData.get("image");
 
+        const requirement = formData.get("requirement");
+
     let attachments = [];
 
     if (image) {
@@ -47,6 +49,11 @@ console.log("Gmail SMTP Connected");
         <p>
           <strong>Product:</strong>
           ${product}
+        </p>
+
+          <p>
+          <strong>Product:</strong>
+         <p>${requirement || "Not Provided"}</p>
         </p>
       `,
 

@@ -220,48 +220,50 @@ const fetchRecommendedCategories = async () => {
         localStorage.getItem("recentSearches")
       ) || [];
 
-    const categorySearches = searches.filter(
-      (item) => item.type === "Category"
-    );
-
-    if (!categorySearches.length) {
-      setRecommendedCategories([]);
-      return;
-    }
-
- 
-    const keywords = categorySearches.map((item) =>
-      item.name.toLowerCase()
-    );
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}api/categories`
     );
 
     const data = await res.json();
 
-    console.log("Categories API:", data);
-
     const allCategories = data?.data || [];
 
-  
-    const matchedCategories = allCategories.filter(
-      (category) =>
+    // NO SEARCH HISTORY
+    if (!searches.length) {
+      const shuffled = [...allCategories].sort(
+        () => 0.5 - Math.random()
+      );
+
+      setRecommendedCategories(
+        shuffled.slice(0, 8)
+      );
+
+      return;
+    }
+
+    const categorySearches = searches.filter(
+      (item) => item.type === "Category"
+    );
+
+    const keywords = categorySearches.map(
+      (item) => item.name.toLowerCase()
+    );
+
+    const matchedCategories =
+      allCategories.filter((category) =>
         keywords.some((keyword) =>
           category.name
             ?.toLowerCase()
             .includes(keyword)
         )
-    );
-
-
-    const finalCategories =
-      matchedCategories.length > 0
-        ? matchedCategories
-        : allCategories.slice(0, 8);
+      );
 
     setRecommendedCategories(
-      finalCategories.slice(0, 8)
+      (
+        matchedCategories.length
+          ? matchedCategories
+          : allCategories
+      ).slice(0, 8)
     );
   } catch (error) {
     console.log(error);
@@ -306,8 +308,29 @@ const fetchRecommendedProducts = async () => {
         localStorage.getItem("recentSearches")
       ) || [];
 
-    if (!searches.length) return;
+    // NO SEARCH HISTORY
+    if (!searches.length) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}api/products`
+      );
 
+      const data = await res.json();
+
+      const products = data?.data || [];
+
+      // random products
+      const shuffled = [...products].sort(
+        () => 0.5 - Math.random()
+      );
+
+      setRecommendedProducts(
+        shuffled.slice(0, 12)
+      );
+
+      return;
+    }
+
+    // USER HAS SEARCH HISTORY
     const keywords = [
       ...new Set(
         searches.map((item) => item.keyword)
@@ -345,7 +368,6 @@ const fetchRecommendedProducts = async () => {
     console.log(error);
   }
 };
-
 
 const handleSubmit2 = async () => {
   if (submitting) return;
@@ -480,7 +502,7 @@ const handleSubmit2 = async () => {
 
 
 
-
+{recommendedProducts.length > 0 && (
 <section className="mt-10 px-8">
 
  <div className="bg-white text-black mb-4">
@@ -490,9 +512,11 @@ const handleSubmit2 = async () => {
         ✨ Personalized Picks
       </div>
 
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2">
-        Products You May Like
-      </h2>
+    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2">
+  {searches.length
+    ? "Products You May Like"
+    : "Trending Products"}
+</h2>
 
    
     </div>
@@ -631,6 +655,7 @@ const handleSubmit2 = async () => {
 
 </section>
 
+)}
 
 
 <section className="mt-10 px-4">
@@ -641,9 +666,11 @@ const handleSubmit2 = async () => {
       {recommendedCategories.length > 0 && (
         <>
           <div className="mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#183B63]">
-              Categories You May Like
-            </h2>
+           <h2 className="text-2xl md:text-3xl font-bold text-[#183B63]">
+  {searches.length
+    ? "Categories You May Like"
+    : "Popular Categories"}
+</h2>
 
             <p className="text-gray-500 mt-2">
               Recommendations based on your recent searches and interests.

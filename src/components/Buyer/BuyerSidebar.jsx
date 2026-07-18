@@ -91,56 +91,55 @@ export default function BuyerSidebar() {
           duration-300
           overflow-y-auto
 
-          ${
-            open
-              ? "translate-x-0"
-              : "-translate-x-full md:translate-x-0"
+          ${open
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
           }
         `}
       >
         {/* Header */}
-       <div className="p-5 border-b relative">
-  <button
-    onClick={() => setOpen(false)}
-    className="md:hidden absolute right-4 top-4"
-  >
-    <X size={22} />
-  </button>
+        <div className="p-5 border-b border-gray-300 relative">
+          <button
+            onClick={() => setOpen(false)}
+            className="md:hidden absolute right-4 top-4"
+          >
+            <X size={22} />
+          </button>
 
-  <div className="flex flex-col items-center text-center">
-    {user?.profileImage ? (
-      <img
-        src={user.profileImage}
-        alt={user?.name}
-        className="w-20 h-20 rounded-full object-cover border-4 border-[#183B63]/10"
-      />
-    ) : (
-      <div className="w-20 h-20 rounded-full bg-[#183B63] text-white flex items-center justify-center text-3xl font-bold">
-        {getInitial(user?.name)}
-      </div>
-    )}
+          <div className="flex flex-col items-center text-center">
+            {user?.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt={user?.name}
+                className="w-20 h-20 rounded-full object-cover border-4 border-[#183B63]/10"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-[#183B63] text-white flex items-center justify-center text-3xl font-bold">
+                {getInitial(user?.name)}
+              </div>
+            )}
 
-    <h3 className="mt-3 font-semibold text-lg text-[#183B63]">
-      {user?.name || "Buyer"}
-    </h3>
+            <h3 className="mt-3 font-semibold text-lg text-[#183B63]">
+              {user?.name || "Buyer"}
+            </h3>
 
-    
 
-    <div className="w-full mt-4 space-y-2">
-      <div className="flex items-center gap-2 text-sm text-gray-600">
-        <Phone size={14} />
-        <span>{user?.phone || "-"}</span>
-      </div>
 
-      <div className="flex items-center gap-2 text-sm text-gray-600 break-all">
-        <Mail size={14} />
-        <span>{user?.email || "-"}</span>
-      </div>
-    </div>
+            <div className="w-full mt-4 space-y-2">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Phone size={14} />
+                <span>{user?.phone || "-"}</span>
+              </div>
 
-  
-  </div>
-</div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 break-all">
+                <Mail size={14} />
+                <span>{user?.email || "-"}</span>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
         {/* Seller CTA */}
         <div className="p-4">
           <a
@@ -182,10 +181,9 @@ export default function BuyerSidebar() {
                   mb-2
                   transition-all
 
-                  ${
-                    active
-                      ? "bg-[#183B63] text-white shadow-md"
-                      : "text-gray-700 hover:bg-gray-100"
+                  ${active
+                    ? "bg-[#183B63] text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100"
                   }
                 `}
               >

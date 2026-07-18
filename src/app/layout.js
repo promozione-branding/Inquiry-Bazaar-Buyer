@@ -6,8 +6,8 @@ import ReduxProvider from "@/redux/ReduxProvider";
 import Stickyfooter from "@/components/Stickyfooter";
 
 export const metadata = {
-  title: "Buyer - Inquiry Bazaar",
-  description: "Inquiry Bazaar B2B marketplace",
+  title: "Buyer Registration | Get Quotes from Verified Suppliers | Inquiry Bazaar",
+  description: "Create your buyer account on Inquiry Bazaar to submit product and service requirements, compare quotations from verified suppliers, and connect with trusted manufacturers across India for hassle-free B2B sourcing.",
 };
 
 export default function RootLayout({ children }) {
@@ -15,9 +15,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-gray-50">
 
-    
+
         <ReduxProvider>
-              <Stickyfooter/>
+          <Stickyfooter />
           <Navbar />
           <Toaster position="top-center" />
           {children}

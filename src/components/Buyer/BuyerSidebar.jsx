@@ -63,7 +63,7 @@ export default function BuyerSidebar() {
       {/* Mobile Toggle */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed top-5 left-50 z-9999 bg-[#183B63] text-white p-3 rounded-xl shadow-lg"
+        className="md:hidden fixed top-5 left-2 z-9999 bg-[#183B63] text-white p-2 rounded-md shadow-lg"
       >
         <Menu size={22} />
       </button>
@@ -98,7 +98,7 @@ export default function BuyerSidebar() {
         `}
       >
         {/* Header */}
-        <div className="p-5 border-b border-gray-300 relative">
+        <div className="p-4 border-b border-gray-300 relative">
           <button
             onClick={() => setOpen(false)}
             className="md:hidden absolute right-4 top-4"

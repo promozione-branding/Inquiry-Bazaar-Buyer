@@ -11,7 +11,9 @@ import {
     IndianRupee,
     Users,
 } from "lucide-react";
-import { ownershipTypes, businessTypes, businessField, employeNumber } from "@/Data/data";
+import { ownershipTypes, businessTypes, businessField, employeNumber, locations, trunover } from "@/Data/data";
+import SelectInput from "@/components/Inputs/SelectInput";
+import Input from "@/components/Inputs/FormInput";
 
 export default function BusinessForm({ user, setBusinessDetails }) {
     const [loading, setLoading] = useState(false);
@@ -28,6 +30,11 @@ export default function BusinessForm({ user, setBusinessDetails }) {
         annualTurnover: "",
         numberOfEmployees: "",
         address: "",
+        state: "",
+        city: "",
+        serviceLocations: [
+            ""
+        ],
     });
 
     const fetchIndustryList = async () => {
@@ -75,6 +82,13 @@ export default function BusinessForm({ user, setBusinessDetails }) {
     };
 
     const handleSubmit = async () => {
+        const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+
+        if (form.gstNumber && !gstRegex.test(form.gstNumber.toUpperCase())) {
+            toast.error("Enter a valid GST No.");
+            return;
+        }
+
         try {
             setLoading(true);
             await axios.post("/api/profile/business", form, {
@@ -89,19 +103,19 @@ export default function BusinessForm({ user, setBusinessDetails }) {
         }
     };
 
-    // if (fetching) {
-    //     return <p className="text-center py-10">Loading...</p>;
-    // }
+    const selectedState = locations.find(
+        (item) => item.state === form.state
+    );
 
     return (
         <div className="grid md:grid-cols-2 gap-4">
-            <Input label="Company Name" icon={<Building2 size={18} />} name="companyName" value={form.companyName} onChange={handleChange} />
+            <Input label="Company Name" Icon={Building2} name="companyName" value={form.companyName} onChange={handleChange} />
 
-            <Input label="CEO Name" icon={<User size={18} />} name="ceoName" value={form.ceoName} onChange={handleChange} />
+            <Input label="CEO Name" Icon={User} name="ceoName" value={form.ceoName} onChange={handleChange} />
 
-            <Input label="GST Number" icon={<Building2 size={18} />} name="gstNumber" value={form.gstNumber} onChange={handleChange} />
+            <Input label="GST Number" Icon={Building2} name="gstNumber" value={form.gstNumber} onChange={handleChange} />
 
-            <Input label="Established Date" type="date" icon={<Calendar1 size={18} />} name="establishedDate" value={form.establishedDate} onChange={handleChange} />
+            <Input label="Established Date" type="date" Icon={Calendar1} name="establishedDate" value={form.establishedDate} onChange={handleChange} />
 
             <div>
                 <label className="label">Ownership Type</label>
@@ -193,7 +207,41 @@ export default function BusinessForm({ user, setBusinessDetails }) {
 
             {/* <Input label="Number of Employees" icon={<Users size={18} />} name="numberOfEmployees" value={form.numberOfEmployees} onChange={handleChange} /> */}
 
-            <Input label="Annual Turnover" icon={<IndianRupee size={17} />} name="annualTurnover" value={form.annualTurnover} onChange={handleChange} />
+            <SelectInput
+                label="Annual Turnover"
+                Icon={IndianRupee}
+                name="annualTurnover"
+                value={form.annualTurnover}
+                onChange={handleChange}
+                options={trunover.map((c) => ({
+                    label: c,
+                    value: c,
+                }))}
+            />
+
+            <SelectInput
+                label="State"
+                Icon={MapPin}
+                name="state"
+                value={form.state}
+                onChange={handleChange}
+                options={locations.map((c) => ({
+                    label: c.state,
+                    value: c.state,
+                }))}
+            />
+
+            <SelectInput
+                label="City"
+                Icon={MapPin}
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                options={(selectedState?.cities || []).map((city) => ({
+                    label: city,
+                    value: city,
+                }))}
+            />
 
             <div>
                 <label className="label">Business Address</label>
@@ -218,19 +266,6 @@ export default function BusinessForm({ user, setBusinessDetails }) {
                 >
                     {loading ? "Saving..." : "Save"}
                 </button>
-            </div>
-        </div>
-    );
-}
-
-/* Input Component */
-function Input({ label, icon, type = "text", ...props }) {
-    return (
-        <div>
-            <label className="label">{label}</label>
-            <div className="relative">
-                <div className="icon">{icon}</div>
-                <input type={type} className="input pl-8!" {...props} placeholder={label} />
             </div>
         </div>
     );

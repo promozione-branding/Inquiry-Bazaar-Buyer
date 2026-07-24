@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Input({ label, Icon = IdCard, ...props }) {
     return (
-        <div>
+        <div className='overflow-hidden'>
             <label className="label">{label}</label>
             <div className="relative">
                 <Icon size={18} className="icon" />

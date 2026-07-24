@@ -451,7 +451,7 @@ const handleSubmit2 = async () => {
         />
 
         {showResults && (
-          <div className="absolute top-[55px] left-0 w-full bg-white border rounded-lg shadow-lg z-50 max-h-[400px] overflow-y-auto">
+          <div className="absolute top-[55px] left-0 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-[400px] overflow-y-auto">
             {loading ? (
               <div className="p-4 text-center">Searching...</div>
             ) : searchResults.length > 0 ? (
@@ -464,7 +464,7 @@ const handleSubmit2 = async () => {
                     setShowResults(false);
                     setSearchQuery("");
                   }}
-                  className="block px-4 py-3 border-b hover:bg-gray-50"
+                  className="block px-4 py-3 border-b border-gray-300 hover:bg-gray-50"
                 >
                   <div className="font-medium">{item.name}</div>
                   <div className="text-sm text-gray-500">

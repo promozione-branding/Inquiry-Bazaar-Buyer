@@ -162,6 +162,7 @@ export default function BuyerRegister() {
               />
 
               <input
+                maxLength={10}
                 name="phone"
                 onChange={handleChange}
                 placeholder="Phone Number"

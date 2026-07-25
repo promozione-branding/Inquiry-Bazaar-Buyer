@@ -22,7 +22,7 @@ export async function POST(req) {
     }
 
     // Find User
-    const user = await User.findOne({ phone });
+    const user = await User.findOne({ phone, role: "buyer" });
 
     if (!user) {
       return NextResponse.json(

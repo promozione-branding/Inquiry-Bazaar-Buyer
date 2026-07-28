@@ -572,7 +572,7 @@ export default function Dashboard() {
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:gap-5 gap-2">
               {recommendedProducts.slice(0, 4).map((product) => {
                 const image = product.media?.[0]?.url || "/placeholder.png";
 
@@ -583,7 +583,7 @@ export default function Dashboard() {
                     className="group"
                   >
                     <div className="flex h-full flex-col bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
-                      <div className="relative bg-[#fafafa] h-60 flex items-center justify-center border-b border-gray-300 overflow-hidden">
+                      <div className="relative bg-[#fafafa] h-48 xl:h-60 flex items-center justify-center border-b border-gray-300 overflow-hidden">
 
                         {/* Price Ribbon */}
                         <div className="absolute top-0 left-0 z-10">

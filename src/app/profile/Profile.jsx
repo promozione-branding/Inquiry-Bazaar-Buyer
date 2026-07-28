@@ -18,6 +18,8 @@ import {
   Youtube,
   Twitter,
   Camera,
+  SquareActivity,
+  MessageSquareText,
 } from "lucide-react";
 import BusinessForm from "@/components/Buyer/Profile/BusinessForm";
 import BankForm from "@/components/Buyer/Profile/BankForm";
@@ -28,6 +30,8 @@ import EditModal from "@/components/Buyer/Profile/EditModal";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { setUser } from "@/redux/slices/authSlice";
+import Docs from "@/components/Buyer/Profile/Docs";
+import RecentActivity from "@/components/Buyer/Profile/RecentActivity";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -41,7 +45,7 @@ export default function Profile() {
     { id: "bank", label: "Bank", icon: Landmark },
     { id: "additional-info", label: "Additional Info", icon: Link },
     { id: "reviews", label: "Reviews", icon: Star },
-    { id: "performance", label: "Performance", icon: ChartLine },
+    { id: "recent-activity", label: "Recent Activity", icon: SquareActivity },
     { id: "docs", label: "Docs", icon: File },
     { id: "social", label: "Social", icon: Share2 },
   ];
@@ -130,8 +134,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="p-2 md:p-4 w-full bg-gray-100">
-      <div className="grid lg:grid-cols-3 xl:gap-5 gap-3">
+    <div className="px-2 py-3 w-full bg-gray-100">
+      <div className="grid lg:grid-cols-3 gap-3">
         <div className="bg-white p-6 rounded-xl shadow space-y-4 h-fit relative">
           <div onClick={() => setEditModal(true)} className="absolute top-2 right-2 rounded-full p-2 bg-blue-50 hover:bg-[#def1ff] text-[#0a5183]">
             <Edit size={16} />
@@ -270,6 +274,34 @@ export default function Profile() {
 
             {activeTab === "social" && (
               <SocialForm user={user} businessId={businessDetails?._id} />
+            )}
+
+            {activeTab === "docs" && (
+              <Docs user={user?._id} />
+            )}
+
+            {activeTab === "recent-activity" && (
+              <RecentActivity user={user?._id} />
+            )}
+
+            {activeTab === "reviews" && (
+              <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+                <div className="flex flex-col items-center justify-center text-center">
+                  <div className="h-16 w-16 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                    <MessageSquareText className="h-8 w-8 text-[#ec771c]" />
+                  </div>
+
+                  <h3 className="text-xl font-semibold text-[#183B63]">
+                    No Reviews Yet
+                  </h3>
+
+                  <p className="mt-2 max-w-md text-sm text-gray-500">
+                    You haven't written any reviews yet. Share your experience with products
+                    or businesses you've used to help other customers make informed
+                    decisions.
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
